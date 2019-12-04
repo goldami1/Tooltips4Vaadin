@@ -14,6 +14,15 @@ window.tooltips = {
 			return tooltipElement._tippy.id;
 		},
 		
+		setPlacementTooltip: function (classname, tooltip, placement){
+			const tooltipElement = window.tooltips.getElement(classname);
+			if(tooltipElement) tippy(tooltipElement, {
+				placement: placement,
+				content: tooltip
+			});
+			return tooltipElement._tippy.id;
+		},
+		
 		updateTooltip: function(classname, tooltip){
 			const tooltipElement = window.tooltips.getElement(classname);
 			if(tooltipElement) tooltipElement._tippy.setContent(tooltip);

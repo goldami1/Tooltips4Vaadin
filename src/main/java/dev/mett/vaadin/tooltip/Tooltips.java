@@ -12,6 +12,7 @@ import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.page.PendingJavaScriptResult;
 import com.vaadin.flow.function.SerializableConsumer;
 import com.vaadin.flow.shared.Registration;
 
@@ -38,10 +39,31 @@ public final class Tooltips implements Serializable {
     private final static String UI_KEY 			= "TOOLTIPS";
 	private final static String CLASS_PREFIX 	= "tooltip-";
 	
+	public enum PLACEMENT {
+		LEFT("left"),
+		RIGHT("right"),
+		UP("up"),
+		DOWN("down");
+
+		String name;
+
+		PLACEMENT(String name)
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.name; 
+		}
+	}
+	
 	public interface JS_METHODS {
-		String SET_TOOLTIP 		= "return window.tooltips.setTooltip($0,$1)";
-		String UPDATE_TOOLTIP 	= "window.tooltips.updateTooltip($0,$1)";
-		String REMOVE_TOOLTIP 	= "window.tooltips.removeTooltip($0,$1)";
+		String SET_TOOLTIP 				= "return window.tooltips.setTooltip($0,$1)";
+		String SET_PLACEMENT_TOOLTIP	= "return window.tooltips.setPlacementTooltip($0,$1)";
+		String UPDATE_TOOLTIP 			= "window.tooltips.updateTooltip($0,$1)";
+		String REMOVE_TOOLTIP 			= "window.tooltips.removeTooltip($0,$1)";
 	}
 	
 	
@@ -94,6 +116,12 @@ public final class Tooltips implements Serializable {
 		ui.add(new TooltipsJsProvider());
 
 		Tooltips.set(ui, this);
+	}
+	
+	@FunctionalInterface
+	interface JSExecutor
+	{
+		PendingJavaScriptResult executeJS(Page page, String cssClassName, String toolTipText);
 	}
 	
 

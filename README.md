@@ -31,5 +31,9 @@ This plugin makes use of these libraries:
 2. Project Lombok (license: MIT, version 1.18.8, URL: https://projectlombok.org/)
 
 ## Copyright and license
-Code and documentation copyright 2019 Gerrit Sedlaczek.  
+Code and documentation copyright 2019 Gerrit Sedlaczek, @goldami1.
+  
 Code and documentation released under Apache 2.0 license.
+
+## Updated MVN CDN
+https://cdn.jsdelivr.net/gh/goldami1/Tooltips4Vaadin@mvn-repo/
