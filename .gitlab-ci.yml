@@ -65,8 +65,8 @@ git-package-artifact:
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
     - git config --global user.email "git-robot@goldami1.github"
     - git config --global user.name "git-robot"
-    - mkdir -p ~/.ssh
-    - cat gitlab-known-hosts >> ~/.ssh/known_hosts
+    - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
   script:
     - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
     - cd ${CI_PROJECT_NAME}
