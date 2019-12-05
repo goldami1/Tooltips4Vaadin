@@ -77,6 +77,7 @@ git-package-artifact:
     - git checkout -b mvn-repo
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
+    - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | grep -v .git | grep -v .gitignore | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - git add .
     - git commit -m "artifact build"
