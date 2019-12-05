@@ -65,8 +65,8 @@ git-package-artifact:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
-    - git config --global user.email "goldami1@gmail.com"
-    - git config --global user.name "goldami1"
+    - git config --global user.email "git-robot@goldami1.github"
+    - git config --global user.name "git-robot"
     - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
     - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
     - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
