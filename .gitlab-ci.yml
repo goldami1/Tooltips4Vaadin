@@ -17,6 +17,7 @@ cache:
 stages:
   - build
   - test
+  - git-robot
 #  - deploy
 
 build_project:
@@ -52,3 +53,29 @@ build_project:
 #    - 'mvn $MAVEN_CLI_OPTS deploy -s ci_settings.xml'
 #  only:
 #    - master
+
+git-package-artifact:
+  stage: git-robot
+  only:
+    - master
+  allow_failure: true
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$GIT_SSH_PRIV_KEY")
+    - git config --global user.email "git-robot@goldami1.github"
+    - git config --global user.name "git-robot"
+    - mkdir -p ~/.ssh
+    - cat gitlab-known-hosts >> ~/.ssh/known_hosts
+  script:
+    - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
+    - cd ${CI_PROJECT_NAME}
+    - git remote add origin git@gitlab.com:${CI_PROJECT_PATH}.git
+    - git branch -D mvn-repo
+    - git push origin --delete mvn-repo
+    - git checkout -b mvn-repo
+    - mvn deploy
+    - ls -la | grep -v dev | grep -v .git | grep -v .gitignore | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
+    - git add .
+    - git commit -m "artifact build"
+    - git push --set-upstream origin mvn-repo
