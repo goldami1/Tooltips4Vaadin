@@ -55,6 +55,7 @@ build_project:
 #    - master
 
 git-package-artifact:
+  image: maven:3.6.1-jdk-11-slim
   stage: git-robot
   only:
     - master
@@ -73,7 +74,7 @@ git-package-artifact:
     - cd ${CI_PROJECT_NAME}
     - git push origin --delete mvn-repo
     - git checkout -b mvn-repo
-    - mvn deploy
+    - mvn $MAVEN_CLI_OPTS deploy
     - ls -la | grep -v dev | grep -v .git | grep -v .gitignore | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - git add .
     - git commit -m "artifact build"
