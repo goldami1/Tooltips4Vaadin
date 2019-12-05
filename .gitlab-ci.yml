@@ -62,7 +62,7 @@ git-package-artifact:
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GIT_SSH_PRIV_KEY")
+    - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
     - git config --global user.email "git-robot@goldami1.github"
     - git config --global user.name "git-robot"
     - mkdir -p ~/.ssh
