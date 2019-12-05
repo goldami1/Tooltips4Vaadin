@@ -65,8 +65,8 @@ git-package-artifact:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
-    - git config --global user.email "git-robot@goldami1.github"
-    - git config --global user.name "git-robot"
+    - git config --global user.email "$GIT_USR_PRIV_E"
+    - git config --global user.name "goldami1"
     - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
     - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
     - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
@@ -78,7 +78,7 @@ git-package-artifact:
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
     - cp ./target/mvn-repo/dev ./dev -r
-    - ls -la | grep -v dev | grep -v .git | grep -v .gitignore | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
+    - ls -la | grep -v dev | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - git add .
     - git commit -m "artifact build"
     - git push --set-upstream origin mvn-repo
