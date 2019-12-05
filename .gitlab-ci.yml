@@ -80,5 +80,5 @@ git-package-artifact:
     - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - git add .
-    - git commit -m "artifact build"
+    - git commit -m "artifact build - artifact packed by ci auto operation"
     - git push --set-upstream origin mvn-repo
