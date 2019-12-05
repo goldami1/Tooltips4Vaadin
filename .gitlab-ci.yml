@@ -65,8 +65,8 @@ git-package-artifact:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
-    - git config --global user.email "git-robot@goldami1.github"
-    - git config --global user.name "git-robot"
+    - git config --global user.email "$GIT_USR_PRIV_E"
+    - git config --global user.name "goldami1"
     - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
     - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
     - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
@@ -80,6 +80,7 @@ git-package-artifact:
     - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - rm .gitlab-ci.yml
+    - rm .gitignore
     - git add .
     - git commit -m "artifact build - artifact packed by ci auto operation"
     - git push --set-upstream origin mvn-repo
