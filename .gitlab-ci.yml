@@ -100,6 +100,9 @@ git-package-update-artifact:
     - rm maven-metadata.xml.* maven-metadata.xmle
     - md5sum maven-metadata.xml > maven-metadata.xml.md5
     - sha1sum maven-metadata.xml > maven-metadata.xml.sha1
+    - ls -la
+    - cd ../../../..
+    - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
     - git push
