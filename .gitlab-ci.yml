@@ -61,7 +61,8 @@ git-package-update-artifact:
     - master
   allow_failure: true
   before_script:
-    - apt-get update && apt-get install -y git coreutils
+    - apt-get update && apt-get install -y git
+    - apt-get install -y coreutils
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
