@@ -61,7 +61,7 @@ git-package-update-artifact:
     - master
   allow_failure: true
   before_script:
-    - apt-get update && apt-get install -y git coreutils
+    - apt-get update && apt-get install -y git coreutils grep
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
@@ -86,6 +86,9 @@ git-package-update-artifact:
     - git push --set-upstream origin mvn-repo-tmp
     - git merge mvn-repo --allow-unrelated-histories > /dev/null 2>&1 || true
     - cd dev/mett/vaadin/tooltip/
+    - cat maven-metadata.xml
+    - cat maven-metadata.xml | grep -n '<<<<<<<'
+    - cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1
     - tmpTop=$(cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1)
     - tmpMiddle=$(cat maven-metadata.xml | grep -n '=======' | cut -d':' -f1)
     - tmpBottom=$(cat maven-metadata.xml | grep -n '>>>>>>>' | cut -d':' -f1)
