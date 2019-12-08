@@ -61,8 +61,7 @@ git-package-update-artifact:
     - master
   allow_failure: true
   before_script:
-    - apt-get update && apt-get install -y git
-    - apt-get install -y coreutils
+    - apt-get update && apt-get install -y git coreutils
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
@@ -108,33 +107,33 @@ git-package-update-artifact:
     - git checkout -b mvn-repo
     - git push --set-upstream origin mvn-repo
 
-git-package-new-artifact:
-  image: maven:3.6.1-jdk-11-slim
-  stage: git-new-robot
-  only:
-    - master
-  allow_failure: true
-  before_script:
-    - apt-get update && apt-get install -y git
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
-    - git config --global user.email "$GIT_USR_PRIV_E"
-    - git config --global user.name "goldami1"
-    - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
-    - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
-    - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-  script:
-    - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
-    - cd ${CI_PROJECT_NAME}
-    - git push origin --delete mvn-repo
-    - git checkout -b mvn-repo
-    - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
-    - mvn $MAVEN_CLI_OPTS deploy
-    - cp ./target/mvn-repo/dev ./dev -r
-    - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
-    - rm .gitlab-ci.yml
-    - rm .gitignore
-    - git add .
-    - git commit -m "artifact build - artifact packed by ci auto operation"
-    - git push --set-upstream origin mvn-repo
+# git-package-new-artifact:
+#   image: maven:3.6.1-jdk-11-slim
+#   stage: git-robot
+#   only:
+#     - master
+#   allow_failure: true
+#   before_script:
+#     - apt-get update && apt-get install -y git
+#     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#     - eval $(ssh-agent -s)
+#     - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
+#     - git config --global user.email "$GIT_USR_PRIV_E"
+#     - git config --global user.name "goldami1"
+#     - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+#     - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
+#     - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+#   script:
+#     - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
+#     - cd ${CI_PROJECT_NAME}
+#     - git push origin --delete mvn-repo
+#     - git checkout -b mvn-repo
+#     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
+#     - mvn $MAVEN_CLI_OPTS deploy
+#     - cp ./target/mvn-repo/dev ./dev -r
+#     - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
+#     - rm .gitlab-ci.yml
+#     - rm .gitignore
+#     - git add .
+#     - git commit -m "artifact build - artifact packed by ci auto operation"
+#     - git push --set-upstream origin mvn-repo
