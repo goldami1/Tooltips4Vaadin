@@ -84,7 +84,6 @@ git-package-update-artifact:
     - git add .
     - git commit -m "artifact build - artifact packed by ci auto operation"
     - git push --set-upstream origin mvn-repo-tmp
-  after_script:
     - git merge mvn-repo --allow-unrelated-histories
     - cd dev/mett/vaadin/tooltip/
     - tmpTop=$(cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1)
