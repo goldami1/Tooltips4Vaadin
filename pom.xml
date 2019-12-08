@@ -6,7 +6,7 @@
 
 	<groupId>dev.mett.vaadin</groupId>
 	<artifactId>tooltip</artifactId>
-	<version>1.3.2A</version>
+	<version>1.3.3</version>
 	<name>Tooltips4Vaadin</name>
 	<description>Proper tooltips for Vaadin Flow.</description>
 	<packaging>jar</packaging>
