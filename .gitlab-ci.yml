@@ -118,6 +118,7 @@ git-package-update-artifact:
     - git push origin --delete mvn-repo
     - git fetch origin
     - git pull
+    - git branch -d mvn-repo
     - git checkout -b mvn-repo
     - git push --set-upstream origin mvn-repo
     - git push origin --delete mvn-repo-tmp
