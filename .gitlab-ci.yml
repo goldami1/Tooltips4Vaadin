@@ -77,10 +77,10 @@ git-package-update-artifact:
     - cd ${CI_PROJECT_NAME}
     - git fetch origin
     - git pull
-    - git push origin --delete mvn-repo  > /dev/null 2>&1 || true
+    - git push origin --delete mvn-repo-tmp  > /dev/null 2>&1 || true
     - git fetch origin
     - git pull
-    - git branch -d mvn-repo  > /dev/null 2>&1 || true 
+    - git branch -d mvn-repo-tmp  > /dev/null 2>&1 || true 
     - git checkout -b mvn-repo-tmp
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
