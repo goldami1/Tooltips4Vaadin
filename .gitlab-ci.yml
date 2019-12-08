@@ -73,19 +73,21 @@ git-package-update-artifact:
     - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
     - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   script:
-    - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
-    - cd ${CI_PROJECT_NAME}
-    - git checkout -b mvn-repo-tmp
-    - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
-    - mvn $MAVEN_CLI_OPTS deploy
-    - cp ./target/mvn-repo/dev ./dev -r
-    - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
-    - rm .gitlab-ci.yml
-    - rm .gitignore
-    - git add .
-    - git commit -m "artifact build - artifact packed by ci auto operation"
-    - git push --set-upstream origin mvn-repo-tmp
-    - git merge mvn-repo --allow-unrelated-histories > /dev/null 2>&1 || true
+    # - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
+    # - cd ${CI_PROJECT_NAME}
+    # - git checkout -b mvn-repo-tmp
+    # - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
+    # - mvn $MAVEN_CLI_OPTS deploy
+    # - cp ./target/mvn-repo/dev ./dev -r
+    # - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
+    # - rm .gitlab-ci.yml
+    # - rm .gitignore
+    # - git add .
+    # - git commit -m "artifact build - artifact packed by ci auto operation"
+    # - git push --set-upstream origin mvn-repo-tmp
+    - sleep 5
+    - git checkout mvn-repo
+    - git pull
     - cd dev/mett/vaadin/tooltip/
     - cat maven-metadata.xml
     - cat maven-metadata.xml | grep -n '<<<<<<<'
