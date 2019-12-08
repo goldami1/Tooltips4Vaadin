@@ -6,15 +6,7 @@ window.tooltips = {
 			return document.querySelector('.' + classname);
 		},
 		
-		setTooltip: function (classname, tooltip){
-			const tooltipElement = window.tooltips.getElement(classname);
-			if(tooltipElement) tippy(tooltipElement, {
-				content: tooltip
-			});
-			return tooltipElement._tippy.id;
-		},
-		
-		setPlacementTooltip: function (classname, tooltip, placement){
+		setTooltip: function (classname, tooltip, placement){
 			const tooltipElement = window.tooltips.getElement(classname);
 			if(tooltipElement) tippy(tooltipElement, {
 				placement: placement,
