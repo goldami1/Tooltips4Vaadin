@@ -23,6 +23,7 @@ stages:
 build_project:
   image: maven:3.6.1-jdk-11-slim
   stage: build
+  allow_failure: true
   script:
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS install
