@@ -106,10 +106,7 @@ git-package-update-artifact:
     - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
-    - git add .
-    - git stash
-    - git stash drop
-    - git push mvn-repo-tmp
+    - git push -f mvn-repo-tmp
     #- git pull
     #- git push origin --delete mvn-repo
     #- git fetch origin
