@@ -100,18 +100,19 @@ git-package-update-artifact:
     - rm maven-metadata.xml.* maven-metadata.xmle
     - md5sum maven-metadata.xml > maven-metadata.xml.md5
     - sha1sum maven-metadata.xml > maven-metadata.xml.sha1
-    - cd ../../../..
+    - cd ../../../../..
+    - ls -la
     - rm pom.xml README.md  > /dev/null 2>&1 || true
     - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
-    - git push origin mvn-repo-tmp
-    - git pull
-    - git push origin --delete mvn-repo
-    - git fetch origin
-    - git pull
-    - git checkout -b mvn-repo
-    - git push --set-upstream origin mvn-repo
+    - git push mvn-repo-tmp
+    #- git pull
+    #- git push origin --delete mvn-repo
+    #- git fetch origin
+    #- git pull
+    #- git checkout -b mvn-repo
+    #- git push --set-upstream origin mvn-repo
 
     # - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
     # - cd ${CI_PROJECT_NAME}
