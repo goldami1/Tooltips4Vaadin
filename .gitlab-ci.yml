@@ -105,7 +105,7 @@ git-package-update-artifact:
     - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
-    - git push origin/mvn-repo-tmp
+    - git push origin mvn-repo-tmp
     - git pull
     - git push origin --delete mvn-repo
     - git fetch origin
