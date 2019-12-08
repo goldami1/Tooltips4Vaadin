@@ -77,7 +77,10 @@ git-package-update-artifact:
     - cd ${CI_PROJECT_NAME}
     - sleep 5
     - git checkout mvn-repo
+    - git reset --hard origin/mvn-repo
+    - git fetch origin
     - git pull
+    - git merge mvn-repo-tmp
     - cd dev/mett/vaadin/tooltip/
     - cat maven-metadata.xml
     - cat maven-metadata.xml | grep -n '<<<<<<<'
