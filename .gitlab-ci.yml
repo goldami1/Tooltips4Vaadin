@@ -84,9 +84,6 @@ git-package-update-artifact:
     - git pull
     - git merge mvn-repo-tmp > /dev/null 2>&1 || true 
     - cd dev/mett/vaadin/tooltip/
-    - cat maven-metadata.xml
-    - cat maven-metadata.xml | grep -n '<<<<<<<'
-    - cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1
     - tmpTop=$(cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1)
     - tmpMiddle=$(cat maven-metadata.xml | grep -n '=======' | cut -d':' -f1)
     - tmpBottom=$(cat maven-metadata.xml | grep -n '>>>>>>>' | cut -d':' -f1)
@@ -97,6 +94,7 @@ git-package-update-artifact:
     - sed -ie "/<metadata>/,/<\/metadata>/ s|<lastUpdated>[0-9a-z.]\{1,\}</lastUpdated>|<lastUpdated>$tmpLastUpdated</lastUpdated>|g" maven-metadata.xml
     - sed -i -e "/<metadata>/,/<\/metadata>/ s|<release>[0-9a-z.]\{1,\}</release>|<release>$tmpVersion</release>|g" maven-metadata.xml
     - sed -i "8i\      <version>$tmpVersion</version>" maven-metadata.xml
+    - cat maven-metadata.xml
     - rm maven-metadata.xml.* maven-metadata.xmle
     - md5sum maven-metadata.xml > maven-metadata.xml.md5
     - sha1sum maven-metadata.xml > maven-metadata.xml.sha1
@@ -106,7 +104,7 @@ git-package-update-artifact:
     - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
-    - git push -f mvn-repo-tmp
+    - git push -f origin mvn-repo
     #- git pull
     #- git push origin --delete mvn-repo
     #- git fetch origin
