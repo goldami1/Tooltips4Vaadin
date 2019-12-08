@@ -70,10 +70,10 @@ git-package-update-artifact:
     - git config --global user.email "$GIT_USR_PRIV_E"
     - git config --global user.name "goldami1"
     - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
-    - ssh-keyscan www.gitlab.com >> ~/.ssh/known_hosts
-    - echo -e "Host gitlab.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - ssh-keyscan www.${GIT_DOMAIN} >> ~/.ssh/known_hosts
+    - echo -e "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   script:
-    - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
+    - git clone git@${GIT_DOMAIN}:${CI_PROJECT_PATH}.git
     - cd ${CI_PROJECT_NAME}
     - sleep 5
     - git checkout mvn-repo
