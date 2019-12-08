@@ -82,7 +82,7 @@ git-package-update-artifact:
     - git fetch origin
     - git reset --hard origin/mvn-repo
     - git pull
-    - git merge mvn-repo-tmp
+    - git merge mvn-repo-tmp > /dev/null 2>&1 || true 
     - cd dev/mett/vaadin/tooltip/
     - cat maven-metadata.xml
     - cat maven-metadata.xml | grep -n '<<<<<<<'
