@@ -75,14 +75,22 @@ git-package-update-artifact:
   script:
     - git clone git@${GIT_DOMAIN}:${CI_PROJECT_PATH}.git
     - cd ${CI_PROJECT_NAME}
-    - sleep 5
+    - git checkout -b mvn-repo-tmp
+    - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
+    - mvn $MAVEN_CLI_OPTS deploy
+    - cp ./target/mvn-repo/dev ./dev -r
+    - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
+    - rm .gitlab-ci.yml
+    - rm .gitignore
+    - git add .
+    - git commit -m "artifact build - artifact packed by ci auto operation"
+    - git push --set-upstream origin mvn-repo-tmp
     - git checkout mvn-repo
     - git checkout mvn-repo-tmp
-    - git checkout mvn-repo
     - git fetch origin
-    - git reset --hard origin/mvn-repo
+    - git reset --hard origin/mvn-repo-tmp
     - git pull
-    - git merge mvn-repo-tmp > /dev/null 2>&1 || true 
+    - git merge mvn-repo > /dev/null 2>&1 || true 
     - cd dev/mett/vaadin/tooltip/
     - tmpTop=$(cat maven-metadata.xml | grep -n '<<<<<<<' | cut -d':' -f1)
     - tmpMiddle=$(cat maven-metadata.xml | grep -n '=======' | cut -d':' -f1)
@@ -104,13 +112,15 @@ git-package-update-artifact:
     - git diff --name-only --diff-filter=U
     - git add .
     - git commit -m "artifact update"
-    - git push -f origin mvn-repo
-    #- git pull
-    #- git push origin --delete mvn-repo
-    #- git fetch origin
-    #- git pull
-    #- git checkout -b mvn-repo
-    #- git push --set-upstream origin mvn-repo
+    - git push -f origin mvn-repo-tmp
+    - git fetch origin
+    - git pull
+    - git push origin --delete mvn-repo
+    - git fetch origin
+    - git pull
+    - git checkout -b mvn-repo
+    - git push --set-upstream origin mvn-repo
+    - git push origin --delete mvn-repo-tmp
 
     # - git clone git@gitlab.com:${CI_PROJECT_PATH}.git
     # - cd ${CI_PROJECT_NAME}
