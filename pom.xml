@@ -61,7 +61,11 @@
 			<id>vaadin-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
 		</repository>
-
+		<repository>
+          <id>github</id>
+          <name>GitHub OWNER Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/goldami1/tooltips4vaadin</url>
+        </repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -135,6 +139,14 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	<servers>
+		<server>
+      		<id>github</id>
+      		<username>goldami1</username>
+      		<password>${GIT_PRIV_REL_ID}</password>
+    	</server>
+	</servers>
 
 	<build>
 		<pluginManagement>
