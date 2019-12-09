@@ -36,4 +36,5 @@ Code and documentation copyright 2019 Gerrit Sedlaczek, @goldami1.
 Code and documentation released under Apache 2.0 license.
 
 ## Updated MVN CDN
-https://cdn.jsdelivr.net/gh/goldami1/Tooltips4Vaadin@mvn-repo/
+1. https://cdn.jsdelivr.net/gh/goldami1/Tooltips4Vaadin@mvn-repo/
+2. https://mymavenrepo.com/repo/R9FD0rs2ps8lMfclyxf5/

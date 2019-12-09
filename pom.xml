@@ -88,11 +88,6 @@
 			<id>internal</id>
 			<url>file://${project.build.directory}/mvn-repo</url>
 		</repository>
-		<repository>
-     		<id>github</id>
-     		<name>GitHub OWNER Apache Maven Packages</name>
-     		<url>https://maven.pkg.github.com/goldami1/tooltips4vaadin</url>
-   		</repository>
 	</distributionManagement>
 
 	<dependencies>
@@ -139,14 +134,6 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
-	<servers>
-		<server>
-      		<id>github</id>
-      		<username>goldami1</username>
-      		<password>${GIT_PRIV_REL_ID}</password>
-    	</server>
-	</servers>
 
 	<build>
 		<pluginManagement>
