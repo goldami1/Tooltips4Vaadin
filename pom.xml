@@ -6,7 +6,7 @@
 
 	<groupId>dev.mett.vaadin</groupId>
 	<artifactId>tooltip</artifactId>
-	<version>1.3.2.4</version>
+	<version>1.3.2.5</version>
 	<name>Tooltips4Vaadin</name>
 	<description>Proper tooltips for Vaadin Flow.</description>
 	<packaging>jar</packaging>
@@ -84,6 +84,11 @@
 			<id>internal</id>
 			<url>file://${project.build.directory}/mvn-repo</url>
 		</repository>
+		<repository>
+     		<id>github</id>
+     		<name>GitHub OWNER Apache Maven Packages</name>
+     		<url>https://maven.pkg.github.com/goldami1/tooltips4vaadin</url>
+   		</repository>
 	</distributionManagement>
 
 	<dependencies>
