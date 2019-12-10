@@ -18,7 +18,7 @@ stages:
   - build
   - test
   - git-robot
-#  - deploy
+  - deploy
 
 build_project:
   image: maven:3.6.1-jdk-11-slim
@@ -55,6 +55,31 @@ build_project:
 #  only:
 #    - master
 
+git-register-package:
+  image: maven:3.6.1-jdk-11-slim
+  stage: deploy
+  only:
+    - master
+  allow_failure: true
+  before_script:
+    - apt-get update && apt-get install -y git coreutils grep
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$GIT_SSH_PRIV_KEY" | base64 -d)
+    - git config --global github.token "$GIT_PRIV_REL_ID"
+    - git config --global user.email "$GIT_USR_PRIV_E"
+    - git config --global user.name "goldami1"
+    - mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+    - ssh-keyscan www.${GIT_DOMAIN} >> ~/.ssh/known_hosts
+    - echo -e "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  script:
+    - git clone git@${GIT_DOMAIN}:${CI_PROJECT_PATH}.git
+    - cd ${CI_PROJECT_NAME}
+    - echo "$MAVEN_SETTINGS" > /tmp/tmpMySettingsFile.xml
+    - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
+    - mvn -DaltReleaseDeploymentRepository=github::default::https://maven.pkg.${GIT_DOMAIN}/${CI_PROJECT_PATH} -s /tmp/tmpMySettingsFile.xml deploy
+
+
 git-package-update-artifact:
   image: maven:3.6.1-jdk-11-slim
   stage: git-robot
@@ -82,8 +107,9 @@ git-package-update-artifact:
     - git pull
     - git branch -d mvn-repo-tmp  > /dev/null 2>&1 || true 
     - git checkout -b mvn-repo-tmp
+    - tmpProjectBuildDirectory=$(pwd)
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
-    - mvn $MAVEN_CLI_OPTS deploy
+    - mvn $MAVEN_CLI_OPTS -DaltReleaseDeploymentRepository=file://${tmpProjectBuildDirectory}/mvn-repo deploy
     - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - rm .gitlab-ci.yml
