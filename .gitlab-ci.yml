@@ -107,6 +107,8 @@ git-package-update-artifact:
     - git pull
     - git branch -d mvn-repo-tmp  > /dev/null 2>&1 || true 
     - git checkout -b mvn-repo-tmp
+    - ls -la
+    - cat pom.xml
     - sed -i "5i<distributionManagement>\n\    <repository>\n\        <id>internal</id>\n\        <url>file://${project.build.directory}/mvn-repo</url>\n\    </repository>\n</distributionManagement>" pom.xml
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
@@ -132,7 +134,7 @@ git-package-update-artifact:
     - tmpLastUpdated=$(grep -oPm1 "(?<=<lastUpdated>)[^<]+" <<< "$tmpData")
     - tmpVersion=$(grep -oPm1 "(?<=<release>)[^<]+" <<< "$tmpData")
     - sed -ie "/<metadata>/,/<\/metadata>/ s|<lastUpdated>[0-9a-z.]\{1,\}</lastUpdated>|<lastUpdated>$tmpLastUpdated</lastUpdated>|g" maven-metadata.xml
-    - sed -i -e "/<metadata>/,/<\/metadata>/ s|<release>[0-9a-z.]\{1,\}</release>|<release>$tmpVersion</release>|g" maven-metadata.xml
+    - sed -ie "/<metadata>/,/<\/metadata>/ s|<release>[0-9a-z.]\{1,\}</release>|<release>$tmpVersion</release>|g" maven-metadata.xml
     - sed -i "8i\      <version>$tmpVersion</version>" maven-metadata.xml
     - cat maven-metadata.xml
     - rm maven-metadata.xml.* maven-metadata.xmle
