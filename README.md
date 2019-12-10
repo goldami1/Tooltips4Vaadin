@@ -14,13 +14,13 @@ This plugin allows you to define proper tooltips.
 ## Usage
 
 ### Set / update a tooltip
-```
+```JAVA
 Tooltips.getCurrent().setTooltip(yourComponent, "an important information")
 ```
 ### Remove a tooltip
-```
+```JAVA
 Tooltips.getCurrent().removeTooltip(yourComponent)
-``` 
+```
 
 ## Browser Compatibilty
 This library should work nicely with any modern browser but only the ones shown on the were tested.
@@ -35,6 +35,31 @@ Code and documentation copyright 2019 Gerrit Sedlaczek, @goldami1.
   
 Code and documentation released under Apache 2.0 license.
 
-## Updated MVN CDN
-1. https://cdn.jsdelivr.net/gh/goldami1/Tooltips4Vaadin@mvn-repo/
-2. https://mymavenrepo.com/repo/R9FD0rs2ps8lMfclyxf5/
+## Updated MAVEN CDNs
+1.
+
+```XML
+<repository>
+   <id>tooltips4vaadin</id>
+   <url>https://maven.pkg.github.com/goldami1/tooltips4vaadin</url>
+</repository>
+```
+- [x] Dependencies can be found in project's packages page
+
+2.
+
+```XML
+<repository>
+   <id>tooltips4vaadin</id>
+   <url>https://mymavenrepo.com/repo/R9FD0rs2ps8lMfclyxf5/</url>
+</repository>
+```
+
+3.
+
+```XML
+<repository>
+   <id>tooltips4vaadin</id>
+   <url>https://cdn.jsdelivr.net/gh/goldami1/Tooltips4Vaadin@mvn-repo/</url>
+</repository>
+```
