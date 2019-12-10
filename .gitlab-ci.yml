@@ -117,10 +117,12 @@ git-package-update-artifact:
     - cd dev/mett/vaadin/tooltip/
     - tmpData=$(cat maven-metadata.xml)
     - cd $(grep -oPm1 "(?<=<release>)[^<]+" <<< "$tmpData")
-    - cat $(find *.pom)
-    - sleep 10
-    - sed -i "/$REPO_MANAGMENT/d" $(find *.pom)
-    - cat $(find *.pom)
+    - tmpFileName=$(find *.pom)
+    - cat $tmpFileName
+    - tmpTopIns=$(cat $tmpFileName | grep -n '<distributionManagement' | cut -d':' -f1)
+    - tmpBotIns=$(cat $tmpFileName | grep -n '</distributionManagement' | cut -d':' -f1)
+    - sed -ie "${tmpTopIns},${tmpBotIns}d" $tmpFileName
+    - cat $tmpFileName
     - sleep 10
     - cd ../../../../..
     - git add .
