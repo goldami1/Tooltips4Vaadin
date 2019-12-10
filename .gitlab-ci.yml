@@ -107,23 +107,22 @@ git-package-update-artifact:
     - git pull
     - git branch -d mvn-repo-tmp  > /dev/null 2>&1 || true 
     - git checkout -b mvn-repo-tmp
-    - ls -la
-    - cat pom.xml
-    - echo ${REPO_MANAGMENT}
-    - sleep 3
-    - echo "$REPO_MANAGMENT"
-    - sleep 3
-    - echo "${REPO_MANAGMENT}"
-    - sleep 3
     - sed -i "5i $REPO_MANAGMENT" pom.xml
-    - sleep 3
-    - cat pom.xml
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
     - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - rm .gitlab-ci.yml
     - rm .gitignore
+    - cd dev/mett/vaadin/tooltip/
+    - tmpData=$(cat maven-metadata.xml)
+    - cd $(grep -oPm1 "(?<=<release>)[^<]+" <<< "$tmpData")
+    - cat $(find *.pom)
+    - sleep 10
+    - sed -i "/$REPO_MANAGMENT"/d" $(find *.pom)
+    - cat $(find *.pom)
+    - sleep 10
+    - cd ../../../../..
     - git add .
     - git commit -m "artifact build - artifact packed by ci auto operation"
     - git push --set-upstream origin mvn-repo-tmp
