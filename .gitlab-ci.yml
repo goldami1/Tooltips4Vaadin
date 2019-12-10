@@ -119,7 +119,7 @@ git-package-update-artifact:
     - cd $(grep -oPm1 "(?<=<release>)[^<]+" <<< "$tmpData")
     - cat $(find *.pom)
     - sleep 10
-    - sed -i "/$REPO_MANAGMENT"/d" $(find *.pom)
+    - sed -i "/$REPO_MANAGMENT/d" $(find *.pom)
     - cat $(find *.pom)
     - sleep 10
     - cd ../../../../..
