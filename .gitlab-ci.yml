@@ -109,7 +109,8 @@ git-package-update-artifact:
     - git checkout -b mvn-repo-tmp
     - ls -la
     - cat pom.xml
-    - sed -i "5i<distributionManagement>\n\    <repository>\n\        <id>internal</id>\n\        <url>file://${project.build.directory}/mvn-repo</url>\n\    </repository>\n</distributionManagement>" pom.xml
+    - sed -i "5i${REPO_MANAGMENT}" pom.xml
+    - cat pom.xml
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
     - mvn $MAVEN_CLI_OPTS deploy
     - cp ./target/mvn-repo/dev ./dev -r
