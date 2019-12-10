@@ -107,9 +107,9 @@ git-package-update-artifact:
     - git pull
     - git branch -d mvn-repo-tmp  > /dev/null 2>&1 || true 
     - git checkout -b mvn-repo-tmp
-    - tmpProjectBuildDirectory=$(pwd)
+    - sed -i "5i<distributionManagement>\n\    <repository>\n\        <id>internal</id>\n\        <url>file://${project.build.directory}/mvn-repo</url>\n\    </repository>\n</distributionManagement>" pom.xml
     - mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.0"
-    - mvn $MAVEN_CLI_OPTS -DaltReleaseDeploymentRepository=file:/${tmpProjectBuildDirectory}/mvn-repo deploy
+    - mvn $MAVEN_CLI_OPTS deploy
     - cp ./target/mvn-repo/dev ./dev -r
     - ls -la | grep -v dev | grep -v .git | awk -F' ' '{print $9}' | tail -n +4 | xargs rm -fr
     - rm .gitlab-ci.yml
