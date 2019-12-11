@@ -17,8 +17,7 @@ cache:
 stages:
   - build
   - test
-  - git-robot
-  - deploy
+  - deploy-publish
 
 build_project:
   image: maven:3.6.1-jdk-11-slim
@@ -57,7 +56,7 @@ build_project:
 
 git-register-package:
   image: maven:3.6.1-jdk-11-slim
-  stage: deploy
+  stage: deploy-publish
   only:
     - master
   allow_failure: true
@@ -82,7 +81,7 @@ git-register-package:
 
 git-package-update-artifact:
   image: maven:3.6.1-jdk-11-slim
-  stage: git-robot
+  stage: deploy-publish
   only:
     - master
   allow_failure: true
