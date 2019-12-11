@@ -10,7 +10,8 @@ window.tooltips = {
 			const tooltipElement = window.tooltips.getElement(classname);
 			if(tooltipElement) tippy(tooltipElement, {
 				placement: placement,
-				content: tooltip
+				content: tooltip,
+				animation: "shift-away-subtle"
 			});
 			return tooltipElement._tippy.id;
 		},
