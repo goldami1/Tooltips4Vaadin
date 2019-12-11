@@ -1,7 +1,0 @@
-static resources: https://vaadin.com/blog/vaadin-10-and-static-resources
-gitignore: https://www.gitignore.io/api/maven,vaadin,eclipse,intellij+all
-
-popperjs: https://unpkg.com/popper.js@1.15.0/dist/umd/popper.min.js
-tippyjs: https://unpkg.com/tippy.js@5.1.2/dist/tippy-bundle.iife.min.js
-
-tippyjs doc: https://atomiks.github.io/tippyjs/
