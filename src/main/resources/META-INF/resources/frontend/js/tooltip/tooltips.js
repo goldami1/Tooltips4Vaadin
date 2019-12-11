@@ -1,5 +1,5 @@
 import tippy from 'tippy.js';
-import 'tippy.js/animations/shift-away-subtle.css';
+/*import 'tippy.js/animations/shift-away-subtle.css';*/
 
 
 window.tooltips = {
@@ -13,7 +13,6 @@ window.tooltips = {
 			if(tooltipElement) tippy(tooltipElement, {
 				placement: placement,
 				content: tooltip,
-				animation: 'shift-away-subtle',
 			});
 			return tooltipElement._tippy.id;
 		},
